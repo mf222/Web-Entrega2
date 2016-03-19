@@ -1,20 +1,19 @@
-module CarreraCamellos
 
-	class Camello
+class Camello
 
-		attr_accessor :name, :id, :puntaje, :tiempo, :lugar
-		attr_reader :cameyadrans
+	attr_accessor :nombre, :id, :puntaje, :tiempo_total, :lugar, :cameyadrans
 
-		def initialize()
-			@nombre = ""
-			@id = ""
-			@cameyadrans = [] #arreglo yadrans/s <- cada elemento es un segundo
-			@tiempos_xvueltas = [] #arreglo de 5
-			@puntaje = 0
-			@tiempo = 0
-			@lugar = 0
-		end
 
+	def initialize(nombre,id)
+		@nombre = nombre
+		@id = id
+		@cameyadrans = [] #arreglo yadrans/s <- cada elemento es un segundo
+		@tiempos_xvueltas = [] #arreglo de 5. Estaba pensando en hacerlo en un hash, pero en verdad es lo mismo xD
+		@puntaje = 0
+		@tiempo_total = 0
+		@lugar = 0
 	end
-	
+
 end
+
+
