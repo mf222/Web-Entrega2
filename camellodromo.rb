@@ -4,6 +4,9 @@ module CarreraCamellos
 
 	class Camellodromo
 
+		#Lista de camellos
+		#asigna puntaje a camellos y lugar
+		#calcula cosas
 
 
 	end
