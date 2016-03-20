@@ -1,3 +1,4 @@
+
 class Reader
 
 	attr_reader  :cantidad_camellos, :arreglo_camellos, :arreglo_datos
@@ -9,6 +10,7 @@ class Reader
 		@arreglo_datos = []
 
 		read_file
+		
 	
 	end
 
@@ -17,7 +19,7 @@ class Reader
 		linea_camellos = @file.gets.delete("\t")
 		linea_gigante = ''
         @file.each_line do |linea|
-        	linea_gigante << linea.delete(' ').delete("\t")
+        	linea_gigante << linea.delete(' ').delete("\t").delete("\n")
         end		
    		get_data(linea_camellos,linea_gigante)
 #aqui lee las lineas del archivo y las separa
@@ -38,7 +40,7 @@ class Reader
 		end
 
 		while counter < arreglo_muchosdatos.size do
-			@arreglo_datos.push([arreglo_muchosdatos[counter],arreglo_muchosdatos[counter+1]])
+			@arreglo_datos.push([arreglo_muchosdatos[counter].delete("."),arreglo_muchosdatos[counter+1]])
 			counter+=2
 		end
 		
