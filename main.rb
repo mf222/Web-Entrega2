@@ -25,7 +25,7 @@ while i < 3
 	camellodromo_nacional.camellos.each do |nombre,|
 		#puts "#{camellodromo_nacional.camellos[nombre].posiciones}"
 		if camellodromo_nacional.camellos[nombre].posiciones[i] == 1
-			puts "#{camellodromo_nacional.camellos[nombre].nombre}"
+			puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
 			count1 += 1
 		end
 	end
@@ -35,7 +35,7 @@ while i < 3
 		puts "2do lugar:"
 		camellodromo_nacional.camellos.each do |nombre,|
 			if camellodromo_nacional.camellos[nombre].posiciones[i] == 2
-				puts "#{camellodromo_nacional.camellos[nombre].nombre}"
+				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
 				count2 +=1
 			end
 		end
@@ -45,7 +45,7 @@ while i < 3
 		puts "3er lugar:"
 		camellodromo_nacional.camellos.each do |nombre,|
 			if camellodromo_nacional.camellos[nombre].posiciones[i] == 3
-				puts "#{camellodromo_nacional.camellos[nombre].nombre}"
+				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
 			end
 		end
 	end
@@ -58,7 +58,7 @@ end
 puts ""
 puts "Puntajes por camello"
 camellodromo_nacional.camellos.each do |nombre,|
-	puts "#{camellodromo_nacional.camellos[nombre].nombre} #{camellodromo_nacional.camellos[nombre].puntajes[0..2]} #{camellodromo_nacional.camellos[nombre].calc_puntos} "	
+	puts "#{camellodromo_nacional.camellos[nombre].nombre} #{camellodromo_nacional.camellos[nombre].puntajes[0..2]} total: #{camellodromo_nacional.camellos[nombre].calc_puntos} "	
 end
 
 puts ""
@@ -69,22 +69,20 @@ camellodromo_nacional.camellos.each do |nombre,|
 	if camellodromo_nacional.camellos[nombre].finalizadas[camellodromo_nacional.vueltas-1]
 		finalizaron.push(camellodromo_nacional.camellos[nombre].tiempos[camellodromo_nacional.vueltas-1])
 	end
+	#puts "#{camellodromo_nacional.camellos[nombre].finalizadas}"
 	#puts "#{camellodromo_nacional.camellos[nombre].nombre} #{camellodromo_nacional.camellos[nombre].tiempo_total} #{camellodromo_nacional.camellos[nombre].puntajes}"
 end
 
 if finalizaron.count != 0
 	winners = camellodromo_nacional.el_ganador(finalizaron)
 	winners.each do |id|
-		puts "El ganador es #{camellodromo_nacional.camellos[id].nombre} "
+		puts "El ganador es #{camellodromo_nacional.camellos[id].nombre} con #{camellodromo_nacional.camellos[id].tiempos[camellodromo_nacional.vueltas-1]} segundos"
 	end
 else
 	puts "Nadie finalizo la carrera."
 end
 
-camellodromo_nacional.camellos.each do |id,|
-puts "#{camellodromo_nacional.camellos[id].cameyadrans_totales.to_f}"
 
-end
 #Falta calcularlo! es el con mayor puntaje o el que termina la carrera?
 
 #puts "#{camellodromo_nacional.tabla_posiciones}"

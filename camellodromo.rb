@@ -28,6 +28,7 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 		end
 
 		poblar_tablapos
+
 		asignar_puntajes
 	end
 	#Lista de camellos
@@ -41,37 +42,42 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 
 		camello.cameyadrans.each do |segundo|
 			t_actual = t_actual + 1
-			if (y_actual < v_actual*yadrans_pista)
+
+			if y_actual < v_actual*yadrans_pista
 				y_actual += BigDecimal.new(segundo)			
-			else
-				camello.tiempos_xvueltas[y_actual.to_f] = t_actual 
+			end
+
+			if y_actual > v_actual*yadrans_pista
+				#puts "#{t_actual} #{y_actual.to_f}"
+				camello.tiempos_xvueltas[v_actual] = t_actual 
+				v_actual = v_actual+1
 				camello.finalizadas.push(true)
-				v_actual = v_actual + 1
 			end
 		end
 		
-		if(v_actual < vueltas+1 )
-			# puts "#{camello.nombre} no termino la vuelta #{vueltas}"
-			camello.tiempos_xvueltas[y_actual.to_f] = t_actual
+		if(y_actual < cameyadrans_carrera )
+			#puts "#{camello.nombre} no termino la vuelta #{vueltas}"
+			camello.tiempos_xvueltas[v_actual] = t_actual
 			camello.finalizadas.push(false)
 		end
 		camello.tiempo_total = t_actual
 		camello.calc_tiempos
+		#puts "#{camello.tiempos} #{t_actual} #{y_actual.to_f}"
 		camello.cameyadrans_totales = y_actual
+
+
 	end
 
 
 	def poblar_tablapos
-		v_actual = 1
+		v_actual = 0
 
-		while v_actual < vueltas+1
+		while v_actual < vueltas
 			arr_pos = []
 			@camellos.each do |id,pos|
 				arr_pos.push(id)
-
-				ordernar_tiempos(arr_pos, v_actual-1)
 			end
-
+			ordernar_tiempos(arr_pos, v_actual-1)
 			@tabla_posiciones[v_actual] = arr_pos
 			v_actual = v_actual + 1;
 		end
@@ -84,6 +90,7 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 		while i < arr.count
 			j = 0
 			while j < arr.count-1
+				#puts "#{camellos[arr[j]].tiempos} #{@camellos[arr[j+1]].tiempos}"
 				if @camellos[arr[j]].tiempos[vpos] > @camellos[arr[j+1]].tiempos[vpos]
 					aux = arr[j]
 					arr[j] = arr[j+1]
@@ -98,30 +105,40 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 
 	end
 
+
 	def asignar_puntajes
+		count1 = 0
+		count2 = 0
 		@camellos.each do |id,pos|
-			i = 1
-			while i <= vueltas
-				count = 0
-				if id == tabla_posiciones[i][0] || @camellos[id].tiempos[i-1] == @camellos[tabla_posiciones[i][0]].tiempos[i-1]
+			i = 0
+			while i < vueltas
+				if id == tabla_posiciones[i][0] || @camellos[id].tiempos[i] == @camellos[tabla_posiciones[i][0]].tiempos[i]
 					@camellos[id].puntajes.push(6)
-					@camellos[id].posiciones[i-1] = 1					
-				elsif id == tabla_posiciones[i][1] || @camellos[id].tiempos[i-1] == @camellos[tabla_posiciones[i][1]].tiempos[i-1]
-					@camellos[id].puntajes.push(4)
-					@camellos[id].posiciones[i-1] = 2
-				elsif id == tabla_posiciones[i][2] || @camellos[id].tiempos[i-1] == @camellos[tabla_posiciones[i][2]].tiempos[i-1]
-					@camellos[id].puntajes.push(1)
-					@camellos[id].posiciones[i-1] = 3
+					@camellos[id].posiciones[i] = 1	
+					count1 +=1				
+				elsif id == tabla_posiciones[i][1] || @camellos[id].tiempos[i] == @camellos[tabla_posiciones[i][1]].tiempos[i]
+					if count1 < 3
+						@camellos[id].puntajes.push(4)
+					else
+						@camellos[id].puntajes.push(0)
+					end
+					@camellos[id].posiciones[i] = 2
+					count2 +=1
+				elsif id == tabla_posiciones[i][2] || @camellos[id].tiempos[i] == @camellos[tabla_posiciones[i][2]].tiempos[i]
+					if count1+count2<3
+						@camellos[id].puntajes.push(1)
+					else
+						@camellos[id].puntajes.push(0)
+					end
+
+					@camellos[id].posiciones[i] = 3
 				else
 					@camellos[id].puntajes.push(0)
-					@camellos[id].posiciones[i-1] = nil								
+					@camellos[id].posiciones[i] = nil								
 				end
 				i = i+1
-			end
-
-
-		end
-
+			end			
+		end		
 	end
 
 
