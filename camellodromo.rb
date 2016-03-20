@@ -22,7 +22,7 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 			#nombre es realmente la abreviación, y id el espacio en memoria (puntero)
 			camello = Camello.new(nombre,id)
 			@camellos[id] = camello		
-			@camellos[id].cameyadrans = reader.arreglo_datos.map{|ide,yadrans| yadrans.to_f if ide == id }.compact
+			@camellos[id].cameyadrans = reader.arreglo_datos.map{|ide,yadrans| yadrans if ide == id }.compact
 			asign_x_vuelta(@camellos[id])
 		end
 
