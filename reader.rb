@@ -1,4 +1,3 @@
-
 class Reader
 
 	attr_reader  :cantidad_camellos, :arreglo_camellos, :arreglo_datos
@@ -10,7 +9,6 @@ class Reader
 		@arreglo_datos = []
 
 		read_file
-		
 	
 	end
 
