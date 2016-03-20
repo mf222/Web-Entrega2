@@ -1,18 +1,20 @@
 require "bigdecimal"
 class Camello
 
-	attr_accessor :nombre, :id, :puntaje, :tiempo_total, :lugar, :cameyadrans, :tiempos_xvueltas, :tiempos, :puntajes, :posiciones
+	attr_accessor :nombre, :id, :puntaje, :tiempo_total, :lugar, :cameyadrans, :tiempos_xvueltas, :tiempos, :puntajes, :posiciones, :finalizadas, :cameyadrans_totales
 
 
 	def initialize(nombre,id)
 		@nombre = nombre
 		@id = id
 		@cameyadrans = [] #arreglo yadrans/s <- cada elemento es un segundo
+		@cameyadrans_totales = 0
 		@tiempos_xvueltas = Hash.new("foo") #hash de 5. almacena tupla (tiempo, yadra)
 		@tiempos = [] #tiempos a secas
 		@puntajes = [] #puntaje por vuelta
 		@tiempo_total = 0
 		@posiciones = [] #lugar por vuelta
+		@finalizadas = []
 	end
 
 	def yadrans_totales()

@@ -14,7 +14,8 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 		@yadrans_pista = cameyadrans_carrera/vueltas
 
 		#Informacion propia de la carrera
-		@tabla_posiciones = Hash.new("foo")
+		@tabla_posiciones = Hash.new("foo") # hash { vuelta, [array_posiciones relativas]}
+		@tablero = Hash.new("foo") # hash { vuelta , hash {lugar, [array_camellos]} }
 
 		@camellos = Hash.new("Este camello no existe")		
 
@@ -44,17 +45,19 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 				y_actual += BigDecimal.new(segundo)			
 			else
 				camello.tiempos_xvueltas[y_actual.to_f] = t_actual 
+				camello.finalizadas.push(true)
 				v_actual = v_actual + 1
-			
 			end
 		end
 		
 		if(v_actual < vueltas+1 )
 			# puts "#{camello.nombre} no termino la vuelta #{vueltas}"
-			camello.tiempos_xvueltas[y_actual.to_f] = t_actual 
+			camello.tiempos_xvueltas[y_actual.to_f] = t_actual
+			camello.finalizadas.push(false)
 		end
 		camello.tiempo_total = t_actual
 		camello.calc_tiempos
+		camello.cameyadrans_totales = y_actual
 	end
 
 
@@ -65,8 +68,9 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 			arr_pos = []
 			@camellos.each do |id,pos|
 				arr_pos.push(id)
+
+				ordernar_tiempos(arr_pos, v_actual-1)
 			end
-			ordernar_tiempos(arr_pos, v_actual-1)
 
 			@tabla_posiciones[v_actual] = arr_pos
 			v_actual = v_actual + 1;
@@ -77,7 +81,7 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 	# se ordenan los tiempos con bubble sort
 	def ordernar_tiempos(arr,vpos)
 		i = 1
-		while i < arr.count-1
+		while i < arr.count
 			j = 0
 			while j < arr.count-1
 				if @camellos[arr[j]].tiempos[vpos] > @camellos[arr[j+1]].tiempos[vpos]
@@ -98,9 +102,10 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 		@camellos.each do |id,pos|
 			i = 1
 			while i <= vueltas
+				count = 0
 				if id == tabla_posiciones[i][0] || @camellos[id].tiempos[i-1] == @camellos[tabla_posiciones[i][0]].tiempos[i-1]
 					@camellos[id].puntajes.push(6)
-					@camellos[id].posiciones[i-1] = 1
+					@camellos[id].posiciones[i-1] = 1					
 				elsif id == tabla_posiciones[i][1] || @camellos[id].tiempos[i-1] == @camellos[tabla_posiciones[i][1]].tiempos[i-1]
 					@camellos[id].puntajes.push(4)
 					@camellos[id].posiciones[i-1] = 2
@@ -108,8 +113,8 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 					@camellos[id].puntajes.push(1)
 					@camellos[id].posiciones[i-1] = 3
 				else
-					@camellos[id].puntajes.push(0)	
-					@camellos[id].posiciones[i-1] = "no aplica"					
+					@camellos[id].puntajes.push(0)
+					@camellos[id].posiciones[i-1] = nil								
 				end
 				i = i+1
 			end
@@ -118,6 +123,21 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 		end
 
 	end
+
+
+	def el_ganador(arr_ids)
+		ganadores = []
+		arr = arr_ids.sort
+		camellos.each do |id,|
+			if camellos[id].tiempos[vueltas-1] == arr[0]
+				ganadores.push(camellos[id].id)
+			end
+		end
+
+		return ganadores
+
+	end
+
 
 	
 
