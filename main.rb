@@ -15,45 +15,74 @@ puts ""
 
 #MAS ELEGANTE CON CASE REVISAR LUEGO
 puts "Ganadores 3 primeras vueltas"
-i = 0
-while i < 3
-	puts "Vuelta #{i+1}"
-	count1 = 0
-	count2 = 0
-	puts "1er lugar:"
-	
-	camellodromo_nacional.camellos.each do |nombre,|
-		#puts "#{camellodromo_nacional.camellos[nombre].posiciones}"
-		if camellodromo_nacional.camellos[nombre].posiciones[i] == 1
-			puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
-			count1 += 1
-		end
-	end
 
-
-	if count1<3
-		puts "2do lugar:"
-		camellodromo_nacional.camellos.each do |nombre,|
-			if camellodromo_nacional.camellos[nombre].posiciones[i] == 2
-				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
-				count2 +=1
+lugares_str = ["1er", "2do", "3er"]
+for i in 1..3 do
+	puts "Vuelta #{i}"
+	counter=0
+	counter2=0
+	for j in 1..3 do
+		temp = camellodromo_nacional.camellos.reject {|nombre,camello| camello.posiciones[i] != j }
+		if lugares_str[j-1+counter]!=nil
+			puts "#{lugares_str[j-1+counter]} lugar:"
+			counter1=0
+			temp.each do |id,camello|
+				if counter2<3
+					puts "#{camello.nombre} en #{camello.tiempos[i]} segundos"
+					counter1+=1
+					counter2+=1
+					if counter1 != 1
+						counter+=1
+					end
+				end
 			end
 		end
-	end
 
-	if count1+count2<3
-		puts "3er lugar:"
-		camellodromo_nacional.camellos.each do |nombre,|
-			if camellodromo_nacional.camellos[nombre].posiciones[i] == 3
-				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
-			end
-		end
-	end
 
-	
-	puts ""
-i = i + 1
+	end
 end
+
+
+# end
+# i = 0
+# while i < 3
+# 	puts "Vuelta #{i+1}"
+# 	count1 = 0
+# 	count2 = 0
+# 	puts "1er lugar:"
+	
+# 	camellodromo_nacional.camellos.each do |nombre,|
+# 		#puts "#{camellodromo_nacional.camellos[nombre].posiciones}"
+# 		if camellodromo_nacional.camellos[nombre].posiciones[i] == 1
+# 			puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
+# 			count1 += 1
+# 		end
+# 	end
+
+
+# 	if count1<3
+# 		puts "2do lugar:"
+# 		camellodromo_nacional.camellos.each do |nombre,|
+# 			if camellodromo_nacional.camellos[nombre].posiciones[i] == 2
+# 				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
+# 				count2 +=1
+# 			end
+# 		end
+# 	end
+
+# 	if count1+count2<3
+# 		puts "3er lugar:"
+# 		camellodromo_nacional.camellos.each do |nombre,|
+# 			if camellodromo_nacional.camellos[nombre].posiciones[i] == 3
+# 				puts "#{camellodromo_nacional.camellos[nombre].nombre} en #{camellodromo_nacional.camellos[nombre].tiempos[i]} segundos"
+# 			end
+# 		end
+# 	end
+
+	
+# 	puts ""
+# i = i + 1
+# end
 
 puts ""
 puts "Puntajes por camello"
