@@ -47,7 +47,7 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 				y_actual += BigDecimal.new(segundo)			
 			end
 
-			if y_actual > v_actual*yadrans_pista
+			if y_actual >= v_actual*yadrans_pista
 				#puts "#{t_actual} #{y_actual.to_f}"
 				camello.tiempos_xvueltas[v_actual] = t_actual 
 				v_actual = v_actual+1
@@ -117,8 +117,10 @@ attr_accessor :camellos, :cameyadrans_carrera, :vueltas, :yadrans_pista, :tabla_
 					@camellos[id].posiciones[i] = 1	
 					count1 +=1				
 				elsif id == tabla_posiciones[i][1] || @camellos[id].tiempos[i] == @camellos[tabla_posiciones[i][1]].tiempos[i]
-					if count1 < 3
+					if count1 < 2
 						@camellos[id].puntajes.push(4)
+					elsif count1==2
+						@camellos[id].puntajes.push(1)
 					else
 						@camellos[id].puntajes.push(0)
 					end
